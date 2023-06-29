@@ -23,11 +23,7 @@ func main() {
 		return
 	}
 
-	docs, err := scan(urls, depth)
-	if err != nil {
-		log.Fatal("Error scanning documents:", err)
-	}
-
+	docs := scan(urls, depth)
 	res := search(docs, *query)
 
 	for _, i := range res {
@@ -37,7 +33,7 @@ func main() {
 
 // scan осуществляет обход ссылок сайта, указанного в URL,
 // с учётом глубины перехода по ссылкам, переданной в depth.
-func scan(urls []string, depth int) ([]crawler.Document, error) {
+func scan(urls []string, depth int) []crawler.Document {
 	var res []crawler.Document
 
 	s := spider.New()
@@ -52,7 +48,7 @@ func scan(urls []string, depth int) ([]crawler.Document, error) {
 		res = append(res, docs...)
 	}
 
-	return res, nil
+	return res
 }
 
 // search ищет ссылки в переданном списке документов по заданному запросу и возвращает совпадающие документы.
