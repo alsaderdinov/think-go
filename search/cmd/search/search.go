@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"strings"
 
 	"think-go/search/pkg/crawler"
@@ -41,7 +40,7 @@ func scan(urls []string, depth int) []crawler.Document {
 	for _, url := range urls {
 		docs, err := s.Scan(url, depth)
 		if err != nil {
-			log.Println("Error scanning URL:", url, "Error:", err)
+			fmt.Println("Error scanning URL:", url, "Error:", err)
 			continue
 		}
 
