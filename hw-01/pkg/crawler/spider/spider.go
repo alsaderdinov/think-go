@@ -5,7 +5,7 @@ package spider
 import (
 	"net/http"
 	"strings"
-	"think-go/search/pkg/crawler"
+	"think-go/hw-01/pkg/crawler"
 
 	"golang.org/x/net/html"
 )

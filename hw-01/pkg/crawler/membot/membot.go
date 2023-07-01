@@ -1,6 +1,6 @@
 package membot
 
-import "think-go/search/pkg/crawler"
+import "think-go/hw-01/pkg/crawler"
 
 // Service - имитация служба поискового робота.
 type Service struct{}
