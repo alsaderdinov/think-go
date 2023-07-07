@@ -21,16 +21,16 @@ func New() *Service {
 // Add добавляет заданное целочисленное значение к индексу для каждого слова в предоставленной строке.
 // Разбивает входную строку на слова, преобразует их в строчные и связывает
 // заданное целочисленное значение с каждым словом во внутреннем хранилище данных.
-func (s *Service) Add(word string, num int) {
-	words := strings.Fields(strings.ToLower(word))
+func (svc *Service) Add(s string, n int) {
+	words := strings.Fields(strings.ToLower(s))
 	for _, w := range words {
-		s.data[w] = append(s.data[w], num)
+		svc.data[w] = append(svc.data[w], n)
 	}
 }
 
 // Find извлекает целочисленные значения, связанные с заданным словом.
 // Возвращается фрагмент, содержащий все целочисленные значения, связанные с данным словом.
 // Если слово не найдено в индексе, возвращается пустой фрагмент.
-func (s *Service) Find(word string) []int {
-	return s.data[strings.ToLower(word)]
+func (svc *Service) Find(s string) []int {
+	return svc.data[strings.ToLower(s)]
 }
