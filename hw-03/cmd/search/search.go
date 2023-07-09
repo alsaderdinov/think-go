@@ -26,7 +26,7 @@ func main() {
 	s := spider.New()
 
 	docs := scan(s, urls, depth)
-	index := indexed(idx, docs)
+	index := indexDocs(idx, docs)
 
 	ids := idx.Find(strings.ToLower(*query))
 
@@ -37,13 +37,13 @@ func main() {
 }
 
 // indexed индексирует документы и возвращает проиндексированные документы
-func indexed(idx *index.Service, docs []crawler.Document) []crawler.Document {
-	var res []crawler.Document
+func indexDocs(idx *index.Service, docs []crawler.Document) []crawler.Document {
+	res := make([]crawler.Document, len(docs))
 
 	for i, doc := range docs {
 		doc.ID = i
 		idx.Add(doc.Title, doc.ID)
-		res = append(res, doc)
+		res[doc.ID] = doc
 	}
 	return res
 }
