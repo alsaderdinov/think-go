@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"think-go/hw-01/pkg/crawler"
-	"think-go/hw-01/pkg/crawler/spider"
+	"think-go/hw-02/pkg/crawler"
+	"think-go/hw-02/pkg/crawler/spider"
 )
 
 const depth = 2
