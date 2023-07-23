@@ -32,9 +32,22 @@ func main() {
 	idx := index.New()
 	s := spider.New()
 
-	docs, err := processDocs(s)
-	if err != nil {
-		fmt.Println("err", err)
+	var docs []crawler.Document
+	var err error
+
+	if fileExists(file) {
+		docs, err = loadDocs(file)
+		if err != nil {
+			fmt.Println("Error loading documents from file:", err)
+			return
+		}
+	} else {
+		docs = scan(s, urls, depth)
+		err = saveDocs(file, docs)
+		if err != nil {
+			fmt.Println("Error saving documents:", err)
+			return
+		}
 	}
 
 	index := indexDocs(idx, docs)
@@ -46,42 +59,38 @@ func main() {
 	}
 }
 
-// processDocs загружает документы из файла если он существует
-// если файла не существует, то совершает обход ссылок сайта записывает их в файл
-// возвращает найденные документы
-func processDocs(s *spider.Service) ([]crawler.Document, error) {
-	var docs []crawler.Document
-	var err error
+// saveDocs создает файл и записывает документы
+func saveDocs(file string, docs []crawler.Document) error {
+	f, err := os.Create(file)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
 
-	if fileExists() {
-		docs, err = readDocs()
-		if err != nil {
-			return nil, err
-		}
-	} else {
-		f, err := os.Create(file)
-		if err != nil {
-			return nil, err
-		}
-		defer f.Close()
-		docs = scan(s, urls, depth)
+	err = writeDocs(f, docs)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
-		err = writeDocs(f, docs)
-		if err != nil {
-			return nil, err
-		}
+// loadDocs загружает документы из файла
+func loadDocs(file string) ([]crawler.Document, error) {
+	docs, err := readDocs(file)
+	if err != nil {
+		return nil, err
 	}
 	return docs, nil
 }
 
 // fileExists возвращает true если файл существует
-func fileExists() bool {
+func fileExists(file string) bool {
 	_, err := os.Stat(file)
 	return !os.IsNotExist(err)
 }
 
-// readDocs загружает документы из файла
-func readDocs() ([]crawler.Document, error) {
+// readDocs читает документы из файла
+func readDocs(file string) ([]crawler.Document, error) {
 	var res []crawler.Document
 
 	f, err := os.Open(file)
