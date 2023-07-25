@@ -67,11 +67,7 @@ func saveDocs(file string, docs []crawler.Document) error {
 	}
 	defer f.Close()
 
-	err = writeDocs(f, docs)
-	if err != nil {
-		return err
-	}
-	return nil
+  return writeDocs(f, docs)
 }
 
 // loadDocs загружает документы из файла
