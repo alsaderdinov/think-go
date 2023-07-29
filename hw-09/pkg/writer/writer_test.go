@@ -16,17 +16,17 @@ func TestWrite(t *testing.T) {
 	}{
 		{
 			name:  "Strings",
-			args:  args{[]any{"Hello", "World"}},
+			args:  args{a: []any{"Hello", "World"}},
 			wantW: "HelloWorld",
 		},
 		{
 			name:  "Not Strings",
-			args:  args{[]any{1, []string{"Hello", "World"}}},
+			args:  args{a: []any{1, []string{"Hello", "World"}}},
 			wantW: "",
 		},
 		{
 			name:  "Mixed",
-			args:  args{[]any{"Hello", 1, []string{"Hello", "World"}}},
+			args:  args{a: []any{"Hello", 1, []string{"Hello", "World"}}},
 			wantW: "Hello",
 		},
 	}
