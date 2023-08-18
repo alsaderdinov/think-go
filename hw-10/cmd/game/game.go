@@ -6,6 +6,11 @@ import (
 	"sync"
 )
 
+func main() {
+	g := newGame(11)
+	g.start()
+}
+
 type game struct {
 	sBoard  map[string]int
 	tableCh chan string
@@ -78,9 +83,4 @@ func (g *game) addPoint(name string) {
 
 func hasLuck() bool {
 	return rand.Intn(5) == 0
-}
-
-func main() {
-	g := newGame(11)
-	g.start()
 }
