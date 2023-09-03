@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"think-go/hw-12/pkg/crawler"
 	"think-go/hw-12/pkg/crawler/spider"
@@ -42,9 +43,11 @@ func main() {
 	}
 
 	idxDocs := indexDocs(idx, docs)
-	srv := webapp.New(idx, idxDocs)
 
-	srv.Start()
+	srv := webapp.New(idx, idxDocs)
+	if err = srv.Start(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 // saveDocs создает файл и записывает документы

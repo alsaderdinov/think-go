@@ -2,7 +2,6 @@ package webapp
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"think-go/hw-12/pkg/crawler"
 	"think-go/hw-12/pkg/index"
@@ -24,12 +23,12 @@ func New(idx *index.Service, docs []crawler.Document) *Service {
 	}
 }
 
-func (s *Service) Start() {
+func (s *Service) Start() error {
 	r := mux.NewRouter()
 	r.HandleFunc("/docs", s.docsHandler).Methods(http.MethodGet)
 	r.HandleFunc("/index", s.indexHandler).Methods(http.MethodGet)
 
-	log.Fatal(http.ListenAndServe(addr, r))
+	return http.ListenAndServe(addr, r)
 }
 
 func (s *Service) docsHandler(w http.ResponseWriter, _ *http.Request) {
