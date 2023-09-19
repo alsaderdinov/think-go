@@ -89,14 +89,24 @@ func (d *DB) UpdateMovie(ctx context.Context, movie db.Movie) error {
 
 // DeleteMovie deletes a movie from the database based on the provided ID.
 func (d *DB) DeleteMovie(ctx context.Context, id int) error {
-	_, err := d.pool.Exec(ctx, `
-		DELETE FROM movies
-		WHERE id = $1
-	`, id)
-
+	tx, err := d.pool.Begin(ctx)
 	if err != nil {
 		return err
 	}
+	defer tx.Rollback(ctx)
 
-	return nil
+	queries := []string{
+		"DELETE FROM movies_actors WHERE movie_id = $1",
+		"DELETE FROM movies_directors WHERE movie_id = $1",
+		"DELETE FROM movies WHERE id = $1",
+	}
+
+	for _, q := range queries {
+		_, err = tx.Exec(ctx, q, id)
+		if err != nil {
+			return err
+		}
+	}
+
+	return tx.Commit(ctx)
 }

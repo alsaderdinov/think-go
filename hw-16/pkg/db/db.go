@@ -6,7 +6,7 @@ type Movie struct {
 	ID          int     `db:"id"`
 	StudioID    int     `db:"studio_id"`
 	Title       string  `db:"title"`
-	ReleaseYear string  `db:"release_year"`
+	ReleaseYear int     `db:"release_year"`
 	BoxOffice   float64 `db:"box_office"`
 	Rating      string  `db:"rating"`
 }
